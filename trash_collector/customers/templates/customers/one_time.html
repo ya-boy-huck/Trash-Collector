@@ -1,0 +1,17 @@
+{% extends 'customers\customer_base.html' %}
+
+{% block title %} One Time Pickup {% endblock %}
+
+{% block header %} Choose A One Time Pickup {% endblock %}
+
+{% block content %}
+<br />
+<form action="{% url 'customers:one_time' %}" method="post">
+    {% csrf_token %}
+    Date of Pick Up: <input type="date" name="date" id="date">
+    <br />
+    <br />
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

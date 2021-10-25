@@ -1,0 +1,20 @@
+{% extends 'customers\customer_base.html' %}
+
+{% block title %} Customer Suspension {% endblock %}
+
+{% block header %} Choose Suspension Dates {% endblock %}
+
+{% block content %}
+<br />
+<form action="{% url 'customers:suspend' %}" method="post">
+    {% csrf_token %}
+    Start Date: <input type="date" name="start" id="start">
+    <br />
+    <br />
+    End Date: <input type="date" name="end" id="end">
+    <br />
+    <br />
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Trash Collector {% endblock %}
+
+{% block header %} Trash Collector {% endblock %}
+
+{% block content %}
+<br />
+<br />
+<br />
+<br />
+{% if user.is_authenticated %}
+  Hello {{ user.username }}. You don't have a group assigned. Please contact administrator or attempt to register again.
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+  <p>You are not logged in. Please log in or create an account.</p>
+  <a href="{% url 'login' %}">Log In</a>
+  <a href="{% url 'accounts:register' %}">Sign Up</a>
+{% endif %}
+{% endblock %}
+
+{# This is the home page that allows a logged out user to register or log in #}

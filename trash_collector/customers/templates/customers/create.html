@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Customer Create {% endblock %}
+
+{% block header %} Please Complete Registration {% endblock %}
+
+{% block content %}
+
+<form action="{% url 'customers:create' %}" method="post">
+    {% csrf_token %}
+    Name: <input type="text" name="name" id="name"><br />
+    Address: <input type="text" name="address" id="address"><br />
+    Zip Code: <input type="text" name="zip_code" id="zip_code"><br />
+    Choose your Weekly Pickup Day: <input type="text" name="weekly_pickup" id="weekly_pickup"><br />
+    <input type="submit" value="Register">
+</form>
+
+{% endblock %}

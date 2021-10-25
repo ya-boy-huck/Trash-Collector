@@ -1,0 +1,25 @@
+{% extends 'customers\customer_base.html' %}
+
+{% block title %} Customer Profile Edit {% endblock %}
+
+{% block header %} Update Your Information {% endblock %}
+
+{% block content %}
+<br />
+<form action="{% url 'customers:edit_profile' %}" method="post">
+    {% csrf_token %}
+    Name: <input type="text" name="name" id="name" value="{{logged_in_customer.name}}">
+    <br />
+    <br />
+    Address: <input type="text" name="address" id="address" value="{{logged_in_customer.address}}">
+    <br />
+    <br />
+    Zip Code: <input type="text" name="zip_code" id="zip_code" value="{{logged_in_customer.zip_code}}">
+    <br />
+    <br />
+    Weekly Pickup Day: <input type="text" name="weekly" id="weekly" value="{{logged_in_customer.weekly_pickup}}">
+    <br />
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
