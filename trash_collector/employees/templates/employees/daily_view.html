@@ -1,0 +1,60 @@
+{% extends 'employees/employee_base.html' %}
+
+{% block title %} Employee Daily View {% endblock %}
+{% block header %} <h1>Employee Daily View</h1> {% endblock %}
+
+{% block content %}
+<br>
+<form action="{% url 'employees:daily_view'  %}" name="charge_customer" id="charge_customer" method='POST'>
+    {% csrf_token %}
+<div class="container" style="text-align: center">
+        <div class="row">
+            <div div class="col-md">
+                <h5 style="text-align: center;">Customers on Your Pickup Route Today</h5>
+                <hr>
+                <div class="filter" style="text-align: right">
+                    <form action="{% url 'employees:daily_view' %}" method='POST'>
+                        {% csrf_token %}
+                        <form action = "{% url 'employees:daily_view'%}" name = 'daily_view' id= 'daily_view' method = 'POST'>
+                         <select name = "day_of_the_week" id = "day_of_the_week">
+                            <option value = 'Monday' selected = "Monday">Monday</option>
+                            <option value = 'Tuesday' selected = "Tuesday">Tuesday</option>
+                            <option value = 'Wednesday' selected = "Wednesday">Wednesday</option>
+                            <option value = 'Thursday' selected = "Thursday">Thursday</option>
+                            <option value = 'Friday' selected = "Friday">Friday</option>
+                        </select>
+                        <input type = "submit" value = "Submit"> 
+                    </form>
+                </form>
+                </div>
+                <div class="card card-body">
+                    <table class="table table-sm">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Steet Address</th>
+                            <th>Zip Code</th>
+                            <th>Weekly Pickup Date</th>
+                            <th>Balance</th>
+                            <th>Confirm Pickup</th>
+                        </tr>
+                        <tbody>
+                            {% for customer in pickup_customers %}
+                        <tr>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.address }}</td>
+                            <td>{{ customer.zip_code }}</td>
+                            <td>{{ customer.weekly_pickup}}</td>
+                            <td>${{ customer.current_balance }}</td>
+                            <td><input type = 'submit' value='Confirm'></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody> 
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

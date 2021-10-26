@@ -10,13 +10,17 @@
     Address: {{ logged_in_employee.address }} {{ logged_in_employee.zip_code }}<br />
     <br />
     <br />
-    Customers Zip Code:
-    <br />
-    <br />    
-    {% endfor %}
+    Customers Zip Code: 
+    {% for customer in employees_customer_list %}
+    <td>{{ customer.name }}</td>
+    <td>{{ customer.address }}</td>                                               
+    <td>{{ customer.zip_code }}</td>                        
+    <td>{{ customer.weekly_pickup }}<td>                        
+    <td>{{ customer.current_balance }}</td>
+      {% endfor %}
     <br />
     <br />                                                                
-    Todays Trash Pickups:
+    Todays Trash Pickups:<br><input type="Submit" value="Confirm Pickup?">
     <br />
     <br />
     Non-suspended Accounts:
