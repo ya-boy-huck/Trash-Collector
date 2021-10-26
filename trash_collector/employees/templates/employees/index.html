@@ -12,11 +12,11 @@
     <br />
     Customers Zip Code: 
     {% for customer in employees_customer_list %}
-      {{ customer.name }}
-      {{ customer.address }}                                               
-      {{ customer.zip_code }}                        
-      {{ customer.weekly_pickup_date }}                        
-      {{ customer.current_balance }}
+    <td>{{ customer.name }}</td>
+    <td>{{ customer.address }}</td>                                               
+    <td>{{ customer.zip_code }}</td>                        
+    <td>{{ customer.weekly_pickup_date }}<td>                        
+    <td>{{ customer.current_balance }}</td>
       {% endfor %}
     <br />
     <br />                                                                
