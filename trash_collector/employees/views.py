@@ -11,7 +11,6 @@ from .models import Employee
 @login_required
 def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
-
     Customer = apps.get_model('customers.Customer')
     logged_in_user = request.user
     try:
@@ -57,6 +56,19 @@ def edit_profile(request):
             'logged_in_employee': logged_in_employee
         }
         return render(request, 'employees/edit_profile.html', context)
+
+
+def display_customer_info(request):
+    logged_in_user = request.user
+    Customer = apps.get_model('customers.Customer')
+    logged_in_employee = Customer.objects.get(user=logged_in_user)
+    employees_customer_list = Customer.object.filter(zip_code = logged_in_employee.zip_code)
+    
+    context = {
+            'employees_customer_list': employees_customer_list,
+            'logged_in_employee': logged_in_employee
+    }
+    return render(request, 'employees/index.html', context)
 
 
 

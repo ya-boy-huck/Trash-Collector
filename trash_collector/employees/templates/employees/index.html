@@ -10,11 +10,16 @@
     Address: {{ logged_in_employee.address }} {{ logged_in_employee.zip_code }}<br />
     <br />
     <br />
-    Customers Zip Code:
+    Customers Zip Code: 
+    {% for customer in employees_customer_list %}
+      {{ customer.name }}
+      {{ customer.address }}                                               
+      {{ customer.zip_code }}                        
+      {{ customer.weekly_pickup_date }}                        
+      {{ customer.current_balance }}
+      {% endfor %}
     <br />
     <br />                                                                
-    {% endfor %}                                              
-    <br />
     Todays Trash Pickups:
     <br />
     <br />
