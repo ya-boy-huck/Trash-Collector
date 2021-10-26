@@ -5,6 +5,8 @@ from django.apps import apps
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from datetime import date
+
+from trash_collector.customers.models import Customer
 from .models import Employee
 
 
@@ -17,6 +19,9 @@ def index(request):
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         
         today = date.today()
+
+
+
 
         context = {
             'logged_in_employee': logged_in_employee,
@@ -61,7 +66,7 @@ def edit_profile(request):
 def display_customer_info(request):
     logged_in_user = request.user
     Customer = apps.get_model('customers.Customer')
-    logged_in_employee = Customer.objects.get(user=logged_in_user)
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
     employees_customer_list = Customer.object.filter(zip_code = logged_in_employee.zip_code)
     
     context = {
@@ -71,14 +76,7 @@ def display_customer_info(request):
     return render(request, 'employees/index.html', context)
 
 
-
-    #  for customer in pickup_customers: 
-    #      customer_start_suspension = str(customer.start_suspension)
-    #      customer_end_suspension = str(customer.end_suspension)
-    #      if  current_day < customer_start_suspension or current_day > customer_end_suspension:     
-    #          if customer.zip_code == logged_in_employee.zip_code and (customer.weekly_pickup_date == weekday or customer.extra_pickup_date == weekday) :
-    #              pickups.append(customer)
-
-
-
-
+pickups = Customer.objects.filter() #This grabs all the customers with the employees zipcode
+pickups = Customer.objects.filter() #This exclues all suspended accounts
+pickups = Customer.objects.filter() #This is where we determine if today is the pickup day or extra pickup
+pickups = Customer.objects.filter() #This
