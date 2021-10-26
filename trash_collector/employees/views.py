@@ -18,7 +18,7 @@ def index(request):
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         
         today = date.today()
-    
+
         context = {
             'logged_in_employee': logged_in_employee,
             'today': today
@@ -57,3 +57,16 @@ def edit_profile(request):
             'logged_in_employee': logged_in_employee
         }
         return render(request, 'employees/edit_profile.html', context)
+
+
+
+    #  for customer in pickup_customers: 
+    #      customer_start_suspension = str(customer.start_suspension)
+    #      customer_end_suspension = str(customer.end_suspension)
+    #      if  current_day < customer_start_suspension or current_day > customer_end_suspension:     
+    #          if customer.zip_code == logged_in_employee.zip_code and (customer.weekly_pickup_date == weekday or customer.extra_pickup_date == weekday) :
+    #              pickups.append(customer)
+
+
+
+
