@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Employee Create {% endblock %}
+
+{% block header %} Please Complete Registration {% endblock %}
+
+{% block content %}
+
+<form action="{% url 'employees:create' %}" method="post">
+    {% csrf_token %}
+    Name: <input type="text" name="name" id="name"><br />
+    Address: <input type="text" name="address" id="address"><br />
+    Zip Code: <input type="text" name="zip_code" id="zip_code"><br />
+    <input type="submit" value="Register">
+</form>
+
+{% endblock %}

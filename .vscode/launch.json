@@ -8,7 +8,7 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}\\trash_collector\\manage.py",
+            "program": "${workspaceFolder}//trash_collector//manage.py",
             "args": [
                 "runserver"
             ],

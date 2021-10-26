@@ -7,6 +7,6 @@ class Employee(models.Model):
     zip_code = models.CharField(max_length=5)
  
     def __str__(self):
-        return self.nam
+        return self.name
 
 # TODO: Create an Employee model with properties required by the user stories
