@@ -34,7 +34,7 @@ def create(request):
         name_from_form = request.POST.get('name')
         address_from_form = request.POST.get('address')
         zip_from_form = request.POST.get('zip_code')
-        new_employee = Employee(name=name_from_form, user=logged_in_user, address=address_from_form, zip_code=zip_from_form)
+        new_employee = Employee(name=name_from_form, user=logged_in_user, zip_code=zip_from_form)
         new_employee.save()
         return HttpResponseRedirect(reverse('employees:index'))
     else:
@@ -61,7 +61,7 @@ def edit_profile(request):
 def display_customer_info(request):
     logged_in_user = request.user
     Customer = apps.get_model('customers.Customer')
-    logged_in_employee = Customer.objects.get(user=logged_in_user)
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
     employees_customer_list = Customer.object.filter(zip_code = logged_in_employee.zip_code)
     
     context = {
@@ -69,6 +69,23 @@ def display_customer_info(request):
             'logged_in_employee': logged_in_employee
     }
     return render(request, 'employees/index.html', context)
+
+def select_day(request):
+    user = request.user
+    logged_in_employee = Employee.objects.get(user=user)
+    Customers = apps.get_model('customers.Customer')
+    pickup_customers = Customers.objects.all()
+    current_day = str(date.today())
+    weekday = request.POST.get('day_of_the_week')
+    pickups = []
+
+    context = { 'pickups': pickups,
+                'pickup_customers': pickup_customers,
+                'weekday': weekday
+    }
+    #if request.method == 'POST':
+        #return('employees:confirm')
+    return render(request, 'employees/daily_view.html', context)
 
 
 
