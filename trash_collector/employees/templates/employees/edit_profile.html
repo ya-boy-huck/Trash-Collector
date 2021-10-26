@@ -8,10 +8,10 @@
 <br />
 <form action="{% url 'employees:edit_profile' %}" method="post">
     {% csrf_token %}
-    Name: <input type="text" name="name" id="name" value="{{logged_in_customer.name}}">
+    Name: <input type="text" name="name" id="name" value="{{logged_in_employee.name}}">
     <br />
     <br />
-    Zip Code: <input type="text" name="zip_code" id="zip_code" value="{{logged_in_customer.zip_code}}">
+    Zip Code: <input type="text" name="zip_code" id="zip_code" value="{{logged_in_employee.zip_code}}">
     <br />
     <input type="submit" value="Submit">
 </form>
