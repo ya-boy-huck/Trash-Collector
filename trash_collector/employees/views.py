@@ -8,25 +8,20 @@ from datetime import date, datetime
 from .models import Employee
 
 
-# Create your views here.
-
-# TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
-
 @login_required
 def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
-    user = request.user
-    Customer = apps.get_model('customers.Customer')
-    all_customers = Customer.objects.all()
-    try:
-        logged_in_employee = Employee.objects.get(user=user)
 
+    Customer = apps.get_model('customers.Customer')
+    logged_in_user = request.user
+    try:
+        logged_in_employee = Employee.objects.get(user=logged_in_user)
+        
         today = date.today()
 
         context = {
-            'all_customers': all_customers,
-            'today': today,
-            "logged_in_employee":logged_in_employee
+            'logged_in_employee': logged_in_employee,
+            'today': today
         }
 
         return render(request, 'employees/index.html', context)

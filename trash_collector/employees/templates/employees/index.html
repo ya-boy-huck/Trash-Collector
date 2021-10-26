@@ -1,10 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'employees/employee_base.html' %}
 
-{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
+{% block title %} Employee Home {% endblock %}
+
+{% block header %} Employee Portal {% endblock %}
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello Employee {{ user.username }}!
+    Hello Employee {{ user.username }}!<br />
+    Address: {{ logged_in_employee.address }} {{ logged_in_employee.zip_code }}<br />
+    <br />
+    <br />
+    Customers Zip Code:
+    <br />
+    <br />
+    Todays Trash Pickups:
+    <br />
+    <br />
+    Non-suspended Accounts:
+    <br />
+    <br />
+    Trash Not Picked Up:
+     
+
+
+
+
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
