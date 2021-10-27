@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from datetime import date, datetime
 import calendar
 from django.db.models import Q
-from trash_collector.customers.models import Customer
 from .models import Employee
 
 
@@ -18,13 +17,13 @@ def index(request):
     logged_in_employee = request.user
     logged_in_employee = Employee.objects.get(user=logged_in_employee)
     try:
-        logged_in_employee = Employee.objects.get(user=logged_in_employee)
-        
         today = date.today()
-        day_of_week = figure_out_day(today)
+        day_of_week = calendar.day_name[today.weekday()]
         pickups = Customer.objects.filter(zip_code = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
-        pickups = pickups.objects.filter(Q(suspend_start__gt = today) | Q(suspend_end__lt = today)) #This exclues all suspended accounts
-        pickups = pickups.objects.filter(Q(weekly_pick = day_of_week) | Q(one_time_pickup = day_of_week)) #This is where we determine if today is the pickup day or extra pickup 
+        pickups = pickups.exclude(Q(suspend_start__gt = today) | Q(suspend_end__lt = today)) #This exclues all suspended accounts
+        test = pickups[0].weekly_pickup
+        print(test)
+        pickups = pickups.filter(Q(weekly_pickup = day_of_week) | Q(one_time_pickup = today)) #This is where we determine if today is the pickup day or extra pickup 
         #confirm sets last pick up.
 
 
@@ -98,7 +97,3 @@ def select_day(request):
     #if request.method == 'POST':
         #return('employees:confirm')
     return render(request, 'employees/daily_view.html', context)
-
-
-def figure_out_day(day):
-    return calendar.day_name[day.weekday()] 
