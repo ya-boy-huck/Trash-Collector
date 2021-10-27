@@ -1,0 +1,17 @@
+{% extends 'employees/employee_base.html' %}
+
+{% block title %} Confirm Pickup {% endblock %}
+
+{% block header %} Charge Customer for Pickup {% endblock %}
+
+{% block content %}
+
+<form action="{% url 'employees:charge' charge_customer.id %}" method='POST'>
+    {% csrf_token %}
+    <h2> Confirm pickup for {{charge_customer.name}} at {{charge_customer.street_address}} </h2>
+    Confirm: <input type = 'checkbox' name='balance' id ='balance'><br>
+    <br>
+    <input type = 'submit' value = 'Charge Customer'>
+</form>
+
+{% endblock %}

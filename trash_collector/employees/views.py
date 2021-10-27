@@ -20,11 +20,10 @@ def index(request):
         today = date.today()
         day_of_week = calendar.day_name[today.weekday()]
         pickups = Customer.objects.filter(zip_code = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
-        pickups = pickups.exclude(Q(suspend_start__gt = today) | Q(suspend_end__lt = today)) #This exclues all suspended accounts
-        pickups = pickups.filter(Q(weekly_pickup = day_of_week) | Q(one_time_pickup = today)) #This is where we determine if today is the pickup day or extra pickup 
+        #pickups = pickups.filter(Q(weekly_pickup = day_of_week) | Q(one_time_pickup = today)) #This is where we determine if today is the pickup day or extra pickup
+        #pickups = pickups.exclude(Q(suspend_start__gt = today) | Q(suspend_end__lte = today)) #This exclues all suspended accounts
+         
         #confirm sets last pick up.
-
-
 
         context = {
             'logged_in_employee': logged_in_employee,
@@ -79,6 +78,19 @@ def display_customer_info(request):
     }
     return render(request, 'employees/index.html', context)
 
+def confirm(request, user_id):
+    Customers = apps.get_model('customers.Customer')
+    charge_customer = Customers.objects.get(pk = user_id)
+    context = { 'charge_customer': charge_customer}
+
+    if request.method == 'POST':
+        charge_customer.balance += 20
+        charge_customer.save()
+        
+        return HttpResponseRedirect(reverse('employees:index'))
+    else:
+        return render(request, 'employees/charge.html', context)
+
 def select_day(request):
     user = request.user
     logged_in_employee = Employee.objects.get(user=user)
@@ -92,6 +104,9 @@ def select_day(request):
                 'pickup_customers': pickup_customers,
                 'weekday': weekday
     }
-    #if request.method == 'POST':
-        #return('employees:confirm')
-    return render(request, 'employees/daily_view.html', context)
+    if request.method == 'POST':
+        return('employees:charge')
+    return render(request, 'employees/daily_tasks.html', context)
+
+
+
