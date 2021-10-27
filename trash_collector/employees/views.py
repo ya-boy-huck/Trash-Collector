@@ -25,7 +25,7 @@ def index(request):
         pickups = Customer.objects.filter(zip_code = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
         pickups = pickups.objects.filter(Q(suspend_start__gt = today) | Q(suspend_end__lt = today)) #This exclues all suspended accounts
         pickups = pickups.objects.filter(Q(weekly_pick = day_of_week) | Q(one_time_pickup = day_of_week)) #This is where we determine if today is the pickup day or extra pickup 
-
+        #confirm sets last pick up.
 
 
 
