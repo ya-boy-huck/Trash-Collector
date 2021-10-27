@@ -4,8 +4,9 @@ from django.shortcuts import render
 from django.apps import apps
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from datetime import date
-
+from datetime import date, datetime
+import calendar
+from django.db.models import Q
 from trash_collector.customers.models import Customer
 from .models import Employee
 
@@ -14,18 +15,24 @@ from .models import Employee
 def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
     Customer = apps.get_model('customers.Customer')
-    logged_in_user = request.user
+    logged_in_employee = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_employee)
     try:
-        logged_in_employee = Employee.objects.get(user=logged_in_user)
+        logged_in_employee = Employee.objects.get(user=logged_in_employee)
         
         today = date.today()
+        day_of_week = figure_out_day(today)
+        pickups = Customer.objects.filter(zip_code = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
+        pickups = pickups.objects.filter(Q(suspend_start__gt = today) | Q(suspend_end__lt = today)) #This exclues all suspended accounts
+        pickups = pickups.objects.filter(Q(weekly_pick = day_of_week) | Q(one_time_pickup = day_of_week)) #This is where we determine if today is the pickup day or extra pickup 
 
 
 
 
         context = {
             'logged_in_employee': logged_in_employee,
-            'today': today
+            'today': today,
+            'pickups' : pickups
         }
 
         return render(request, 'employees/index.html', context)
@@ -93,7 +100,5 @@ def select_day(request):
     return render(request, 'employees/daily_view.html', context)
 
 
-pickups = Customer.objects.filter() #This grabs all the customers with the employees zipcode
-pickups = Customer.objects.filter() #This exclues all suspended accounts
-pickups = Customer.objects.filter() #This is where we determine if today is the pickup day or extra pickup
-pickups = Customer.objects.filter() #This
+def figure_out_day(day):
+    return calendar.day_name[day.weekday()] 
