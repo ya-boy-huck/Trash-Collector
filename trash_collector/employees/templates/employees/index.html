@@ -12,15 +12,15 @@
     <br />
     Customers Zip Code: 
     {% for customer in pickups_by_zip %}
-    <td>{{ customer.name }}</td>                                              
-    <td>{{ customer.zip_code }}</td>                        
+    <td>{{ customer.name }}</td>                                                                     
       {% endfor %}
     <br />
     <br />                                                                
-    Todays Trash Pickups:<br>{% for customer in pickups %}<a href="{% url 'employees:daily_tasks' %}">Confirm Pickup</a>
+    Todays Trash Pickups: <table> <br>{% for customer in pickups %}<a href="{% url 'employees:daily_tasks' %}">Confirm Pickup</a>
     <td>{{ customer.name }}</td>
     <td>{{ customer.weekly_pickup }}</td>
       {% endfor %}
+    </table>
     <br />
     <br />
     Non-suspended Accounts:

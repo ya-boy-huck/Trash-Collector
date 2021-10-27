@@ -20,7 +20,7 @@ def index(request):
         day_of_week = calendar.day_name[today.weekday()]
         pickups_by_zip = Customer.objects.filter(zip_code__contains = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
         pickups_by_pickup_date = pickups_by_zip.filter(weekly_pickup = day_of_week) | pickups_by_zip.filter(one_time_pickup = today) #This is where we determine if today is the pickup day or extra pickup 
-        pickups = pickups_by_pickup_date.exclude(suspend_start__gt = today, suspend_end__lt = today) #This exclues all suspended accounts
+        pickups = pickups_by_pickup_date.exclude(suspend_start__lt = today, suspend_end__gt = today) #This exclues all suspended accounts
         #confirm sets last pick up.
 
         context = {
@@ -64,18 +64,6 @@ def edit_profile(request):
         }
         return render(request, 'employees/edit_profile.html', context)
 
-
-def display_customer_info(request):
-    logged_in_user = request.user
-    Customer = apps.get_model('customers.Customer')
-    logged_in_employee = Employee.objects.get(user=logged_in_user)
-    employees_customer_list = Customer.object.filter(zip_code = logged_in_employee.zip_code)
-    
-    context = {
-            'employees_customer_list': employees_customer_list,
-            'logged_in_employee': logged_in_employee
-    }
-    return render(request, 'employees/index.html', context)
 
 def confirm(request, user_id):
     Customers = apps.get_model('customers.Customer')
