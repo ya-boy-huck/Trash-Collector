@@ -18,15 +18,16 @@ def index(request):
     try:
         today = date.today()
         day_of_week = calendar.day_name[today.weekday()]
-        pickups = Customer.objects.filter(zip_code__contains = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
-        pickups = pickups.filter(weekly_pickup = day_of_week) | pickups.filter(one_time_pickup = today) #This is where we determine if today is the pickup day or extra pickup 
-        pickups = pickups.exclude(suspend_start__gt = today, suspend_end__lt = today) #This exclues all suspended accounts
+        pickups_by_zip = Customer.objects.filter(zip_code__contains = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
+        pickups_by_pickup_date = pickups_by_zip.filter(weekly_pickup = day_of_week) | pickups_by_zip.filter(one_time_pickup = today) #This is where we determine if today is the pickup day or extra pickup 
+        pickups = pickups_by_pickup_date.exclude(suspend_start__gt = today, suspend_end__lt = today) #This exclues all suspended accounts
         #confirm sets last pick up.
 
         context = {
             'logged_in_employee': logged_in_employee,
             'today': today,
-            'pickups' : pickups
+            'pickups' : pickups,
+            'pickups_by_zip': pickups_by_zip
         }
 
         return render(request, 'employees/index.html', context)
