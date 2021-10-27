@@ -9,7 +9,6 @@ import calendar
 from django.db.models import Q
 from .models import Employee
 
-
 @login_required
 def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
@@ -19,9 +18,9 @@ def index(request):
     try:
         today = date.today()
         day_of_week = calendar.day_name[today.weekday()]
-        pickups = Customer.objects.filter(zip_code = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
-        pickups = pickups.exclude(Q(suspend_start__gt = today) | Q(suspend_end__lt = today)) #This exclues all suspended accounts
-        pickups = pickups.filter(Q(weekly_pickup = day_of_week) | Q(one_time_pickup = today)) #This is where we determine if today is the pickup day or extra pickup 
+        pickups = Customer.objects.filter(zip_code__contains = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
+        pickups = pickups.filter(weekly_pickup = day_of_week) | pickups.filter(one_time_pickup = today) #This is where we determine if today is the pickup day or extra pickup 
+        pickups = pickups.exclude(suspend_start__gt = today, suspend_end__lt = today) #This exclues all suspended accounts
         #confirm sets last pick up.
 
 
