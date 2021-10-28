@@ -5,7 +5,7 @@
 
 {% block content %}
 <br>
-<form action="{% url 'employees:daily_tasks'  %}" name="charge_customer" id="charge_customer" method='POST'>
+<form action="{% url 'employees:daily_tasks'  %}" name="charge_customer" id="charge_customer">
     {% csrf_token %}
 <div class="container" style="text-align: center">
         <div class="row">
@@ -13,9 +13,9 @@
                 <h5 style="text-align: center;">Customers on Your Pickup Route Today</h5>
                 <hr>
                 <div class="filter" style="text-align: right">
-                    <form action="{% url 'employees:daily_tasks' %}" method='POST'>
+                    <form action="{% url 'employees:daily_tasks' %}">
                         {% csrf_token %}
-                        <form action = "{% url 'employees:daily_tasks'%}" name = 'daily_tasks' id= 'daily_tasks' method = 'POST'>
+                        <form action = "{% url 'employees:daily_tasks'%}" name = 'daily_tasks' id= 'daily_tasks'>
                          <select name = "day_of_the_week" id = "day_of_the_week">
                             <option value = 'Monday' selected = "Monday">Monday</option>
                             <option value = 'Tuesday' selected = "Tuesday">Tuesday</option>
@@ -46,7 +46,7 @@
                             <td>{{ customer.zip_code }}</td>
                             <td>{{ customer.weekly_pickup}}</td>
                             <td>${{ customer.current_balance }}</td>
-                            <td><a href="{% url 'employees:charge' %}">Confirm</a></td>
+                            <td><a href="{% url 'employees:charge' customer.id %}">Confirm Trash Pick Up</a></td>
                         </tr>
                         {% endfor %}
                         </tbody> 

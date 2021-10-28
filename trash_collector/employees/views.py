@@ -66,18 +66,17 @@ def edit_profile(request):
         return render(request, 'employees/edit_profile.html', context)
 
 
-def confirm(request, user_id):
-    Customers = apps.get_model('customers.Customer')
-    charge_customer = Customers.objects.get(pk=user_id)
-    context = {'charge_customer': charge_customer}
-
-    if request.method == 'POST':
+def confirm(request, customer_id):
+    try:
+        Customers = apps.get_model('customers.Customer')
+        charge_customer = Customers.objects.get(id =customer_id)
         charge_customer.balance += 20
+        charge_customer.date_of_last_pickup = datetime.now()
         charge_customer.save()
         
+        return render(request, 'employees/index.html')
+    except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse('employees:index'))
-    else:
-        return render(request, 'employees/charge.html', context)
 
 def select_day(request):
     user = request.user
@@ -93,7 +92,7 @@ def select_day(request):
                 'weekday': weekday
     }
     if request.method == 'POST':
-        return HttpResponseRedirect(reverse('employees:charge/'))
+        return HttpResponseRedirect(reverse('employees:index'))
     return render(request, 'employees/daily_tasks.html', context)
 
 
