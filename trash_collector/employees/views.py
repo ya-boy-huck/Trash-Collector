@@ -14,8 +14,8 @@ def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
     Customer = apps.get_model('customers.Customer')
     logged_in_employee = request.user
-    logged_in_employee = Employee.objects.get(user=logged_in_employee)
     try:
+        logged_in_employee = Employee.objects.get(user=logged_in_employee)
         today = date.today()
         day_of_week = calendar.day_name[today.weekday()]
         pickups_by_zip = Customer.objects.filter(zip_code__contains = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode

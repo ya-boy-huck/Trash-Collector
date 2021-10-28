@@ -12,12 +12,12 @@
     <br />
     Customers Zip Code:
     <ul>
-      <li>
+      <l1>
        {% for customer in pickups_by_zip %}
        {{ customer.name }} {{ customer.zip_code }}
        <br>                                                            
        {% endfor %}
-      </li>
+      </l1>
     </ul>                                                            
     Todays Trash Pickups: 
     <ul>
@@ -33,7 +33,7 @@
     <ul>
       <l1>
         {% for customer in pickups_non_suspend %}
-         Name: {{ customer.name }}  {{ customer.suspend_start}} to {{ customer.suspend_end }}
+         {{ customer.name }}
          <br>
          {% endfor %}
       </l1>
