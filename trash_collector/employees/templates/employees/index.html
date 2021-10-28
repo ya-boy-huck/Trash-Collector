@@ -10,22 +10,34 @@
     Address: {{ logged_in_employee.address }} {{ logged_in_employee.zip_code }}<br />
     <br />
     <br />
-    Customers Zip Code: 
-    {% for customer in pickups_by_zip %}
-    <td>{{ customer.name }}</td>                                                                     
-      {% endfor %}
-    <br />
-    <br />                                                                
-    Todays Trash Pickups: <table> <br>{% for customer in pickups %}<a href="{% url 'employees:daily_tasks' %}">Confirm Pickup</a>
-    <td>{{ customer.name }}</td>
-    <td>{{ customer.weekly_pickup }}</td>
-      {% endfor %}
-    </table>
-    <br />
-    <br />
+    Customers Zip Code:
+    <ul>
+      <li>
+       {% for customer in pickups_by_zip %}
+       {{ customer.name }} {{ customer.zip_code }}
+       <br>                                                            
+       {% endfor %}
+      </li>
+    </ul>                                                            
+    Todays Trash Pickups: 
+    <ul>
+      <l1>
+        {% for customer in pickups_by_pickup_date %}
+         Name: {{ customer.name }} has a weekly pick up on {{ customer.weekly_pickup }}
+         <br>
+         {% endfor %}<a href="{% url 'employees:daily_tasks' %}">Confirm Pickup</a>
+      </l1>
+    </ul>
+    
     Non-suspended Accounts:
-    <br />
-    <br />
+    <ul>
+      <l1>
+        {% for customer in pickups_non_suspend %}
+         Name: {{ customer.name }}  {{ customer.suspend_start}} to {{ customer.suspend_end }}
+         <br>
+         {% endfor %}
+      </l1>
+    </ul>
     Trash Not Picked Up:
      
 

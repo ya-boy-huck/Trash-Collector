@@ -46,7 +46,7 @@
                             <td>{{ customer.zip_code }}</td>
                             <td>{{ customer.weekly_pickup}}</td>
                             <td>${{ customer.current_balance }}</td>
-                            <td><input type = 'submit' value='Confirm'></td>
+                            <td><a href="{% url 'employees:charge' %}">Confirm</a></td>
                         </tr>
                         {% endfor %}
                         </tbody> 

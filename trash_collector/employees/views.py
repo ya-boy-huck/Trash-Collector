@@ -20,14 +20,15 @@ def index(request):
         day_of_week = calendar.day_name[today.weekday()]
         pickups_by_zip = Customer.objects.filter(zip_code__contains = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
         pickups_by_pickup_date = pickups_by_zip.filter(weekly_pickup = day_of_week) | pickups_by_zip.filter(one_time_pickup = today) #This is where we determine if today is the pickup day or extra pickup 
-        pickups = pickups_by_pickup_date.exclude(suspend_start__lt = today, suspend_end__gt = today) #This exclues all suspended accounts
+        pickups_non_suspend = pickups_by_pickup_date.exclude(suspend_start__lt = today, suspend_end__gt = today) #This exclues all suspended accounts
         #confirm sets last pick up.
 
         context = {
             'logged_in_employee': logged_in_employee,
             'today': today,
-            'pickups' : pickups,
-            'pickups_by_zip': pickups_by_zip
+            'pickups_by_zip': pickups_by_zip,
+            'pickups_by_pickup_date':pickups_by_pickup_date,
+            'pickups_non_suspend': pickups_non_suspend 
         }
 
         return render(request, 'employees/index.html', context)
@@ -67,8 +68,8 @@ def edit_profile(request):
 
 def confirm(request, user_id):
     Customers = apps.get_model('customers.Customer')
-    charge_customer = Customers.objects.get(pk = user_id)
-    context = { 'charge_customer': charge_customer}
+    charge_customer = Customers.objects.get(pk=user_id)
+    context = {'charge_customer': charge_customer}
 
     if request.method == 'POST':
         charge_customer.balance += 20
@@ -85,14 +86,14 @@ def select_day(request):
     pickup_customers = Customers.objects.all()
     current_day = str(date.today())
     weekday = request.POST.get('day_of_the_week')
-    pickups = []
+    
 
-    context = { 'pickups': pickups,
+    context = { 
                 'pickup_customers': pickup_customers,
                 'weekday': weekday
     }
     if request.method == 'POST':
-        return('employees:charge')
+        return HttpResponseRedirect(reverse('employees:charge/'))
     return render(request, 'employees/daily_tasks.html', context)
 
 
