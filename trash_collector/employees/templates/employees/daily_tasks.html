@@ -5,7 +5,7 @@
 
 {% block content %}
 <br>
-<form action="{% url 'employees:daily_tasks'  %}" name="charge_customer" id="charge_customer">
+<form action="{% url 'employees:daily_tasks' %}" name="charge_customer" id="charge_customer">
     {% csrf_token %}
 <div class="container" style="text-align: center">
         <div class="row">
@@ -15,8 +15,8 @@
                 <div class="filter" style="text-align: right">
                     <form action="{% url 'employees:daily_tasks' %}">
                         {% csrf_token %}
-                        <form action = "{% url 'employees:daily_tasks'%}" name = 'daily_tasks' id= 'daily_tasks'>
-                         <select name = "day_of_the_week" id = "day_of_the_week">
+                        <form action = "{% url 'employees:select_day' day_of_the_week %}" name = 'daily_tasks' id= 'daily_tasks'>
+                            <select name = "day_of_the_week" id = "day_of_the_week">
                             <option value = 'Monday' selected = "Monday">Monday</option>
                             <option value = 'Tuesday' selected = "Tuesday">Tuesday</option>
                             <option value = 'Wednesday' selected = "Wednesday">Wednesday</option>
@@ -45,7 +45,7 @@
                             <td>{{ customer.address }}</td>
                             <td>{{ customer.zip_code }}</td>
                             <td>{{ customer.weekly_pickup}}</td>
-                            <td>${{ customer.current_balance }}</td>
+                            <td>${{ customer.balance }}</td>
                             <td><a href="{% url 'employees:charge' customer.id %}">Confirm Trash Pick Up</a></td>
                         </tr>
                         {% endfor %}

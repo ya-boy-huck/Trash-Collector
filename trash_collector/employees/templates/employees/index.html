@@ -22,28 +22,13 @@
     Todays Trash Pickups: 
     <ul>
       <l1>
-        {% for customer in pickups_by_pickup_date %}
+        {% for customer in pickups_non_suspend %}
          Name: {{ customer.name }} has a weekly pick up on {{ customer.weekly_pickup }}
          <br>
          {% endfor %}<a href="{% url 'employees:daily_tasks' %}">Confirm Pickup</a>
       </l1>
     </ul>
     
-    Non-suspended Accounts:
-    <ul>
-      <l1>
-        {% for customer in pickups_non_suspend %}
-         {{ customer.name }}
-         <br>
-         {% endfor %}
-      </l1>
-    </ul>
-    Trash Not Picked Up:
-     
-
-
-
-
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>

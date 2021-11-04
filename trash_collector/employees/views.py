@@ -18,7 +18,7 @@ def index(request):
         logged_in_employee = Employee.objects.get(user=logged_in_employee)
         today = date.today()
         day_of_week = calendar.day_name[today.weekday()]
-        pickups_by_zip = Customer.objects.filter(zip_code__contains = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
+        pickups_by_zip = Customer.objects.filter(zip_code = logged_in_employee.zip_code) #This grabs all the customers with the employees zipcode
         pickups_by_pickup_date = pickups_by_zip.filter(weekly_pickup = day_of_week) | pickups_by_zip.filter(one_time_pickup = today) #This is where we determine if today is the pickup day or extra pickup 
         pickups_non_suspend = pickups_by_pickup_date.exclude(suspend_start__lt = today, suspend_end__gt = today) #This exclues all suspended accounts
         #confirm sets last pick up.
@@ -78,22 +78,36 @@ def confirm(request, customer_id):
     except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse('employees:index'))
 
-def select_day(request):
-    user = request.user
-    logged_in_employee = Employee.objects.get(user=user)
-    Customers = apps.get_model('customers.Customer')
-    pickup_customers = Customers.objects.all()
-    current_day = str(date.today())
-    weekday = request.POST.get('day_of_the_week')
+# def select_day(request):
+#     user = request.user
+#     logged_in_employee = Employee.objects.get(user=user)
+#     Customers = apps.get_model('customers.Customer')
+#     pickup_customers = Customers.objects.all()
+#     current_day = str(date.today())
+#     weekday = request.POST.get('day_of_the_week')
     
 
-    context = { 
-                'pickup_customers': pickup_customers,
-                'weekday': weekday
-    }
-    if request.method == 'POST':
-        return HttpResponseRedirect(reverse('employees:index'))
-    return render(request, 'employees/daily_tasks.html', context)
+#     context = { 
+#                 'pickup_customers': pickup_customers,
+#                 'weekday': weekday
+#     }
+#     if request.method == 'POST':
+#         return HttpResponseRedirect(reverse('employees:index'))
+#     return render(request, 'employees/daily_tasks.html', context)
 
 
+
+def select_day(request, day_of_the_week):
+    user = request.user
+    logged_in_employee = Employee.objects.get(user=user)
+    Customers = apps.get_model('customers. Customer')
+    if request.method == "POST":
+        pickup_customers = Customers.objects.filter(weekly_pickup = day_of_the_week)
+
+        weekday = request.POST.get('day _of_the week')
+        context = {
+                    'pickup_ customers' : pickup_customers,
+                    'weekday' : weekday
+        }
+        return render (request, 'employees/daily_tasks.html', context)
 
